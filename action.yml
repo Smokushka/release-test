@@ -1,0 +1,19 @@
+name: "Release Test"
+description: "Create a new scratch org, install the latest production release, and run Apex tests."
+inputs:
+  dev-hub-auth-url:
+    type: string
+    required: True
+  org-name:
+    type: string
+    default: release
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Run CumulusCI Flow
+      uses: cumulusci-actions/execute-cumulusci-flow@main
+      with:
+        dev-hub-auth-url: ${{ inputs.dev-hub-auth-url }}
+        org-name: ${{ inputs.org-name }}
+        flow-name: ci_release
