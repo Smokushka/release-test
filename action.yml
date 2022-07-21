@@ -1,19 +1,26 @@
 name: "Release Test"
 description: "Create a new scratch org, install the latest production release, and run Apex tests."
 inputs:
+  cumulusci-version:
+    description: 'version of CumulusCI to install'
+    required: false
+  sfdx-version:
+    description: 'version of SFDX to install'
+    required: false
   dev-hub-auth-url:
-    type: string
-    required: True
+    description: 'SFDX auth URL for the Dev Hub'
+    required: true
   org-name:
-    type: string
+    description: 'Name of the scratch org config to use'
+    required: true
     default: release
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
-    - name: Run CumulusCI Flow
-      uses: cumulusci-actions/execute-flow-scratch@main
+    - uses: cumulusci-actions/run-flow-scratch@v1
       with:
-        dev-hub-auth-url: ${{ inputs.dev-hub-auth-url }}
-        org-name: ${{ inputs.org-name }}
+        dev-hub-auth-url: '${{ inputs.dev-hub-auth-url }}'
+        org-name: '${{ inputs.org-name }}'
+        cumulusci-version: '${{ inputs.cumulusci-version }}'
+        sfdx-version: '${{ inputs.sfdx-version }}'
         flow-name: ci_release
